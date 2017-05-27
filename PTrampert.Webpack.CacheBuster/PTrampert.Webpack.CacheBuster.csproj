@@ -5,6 +5,7 @@
     <Description>Nuget package and webpack plugin to help with cache busting webpacked resources in your Razor views.</Description>
     <PackageLicenseUrl>https://github.com/PaulTrampert/PTrampert.Webpack.CacheBuster/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/PaulTrampert/PTrampert.Webpack.CacheBuster</PackageProjectUrl>
+    <PackageReleaseNotes>https://github.com/PaulTrampert/PTrampert.Webpack.CacheBuster/releases</PackageReleaseNotes>
     <PackageTags>cachebusting cache busting webpack chunkhash chunk hash</PackageTags>
   </PropertyGroup>
 
