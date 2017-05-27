@@ -7,6 +7,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PTrampert.Webpack.CacheBust
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PTrampert.Webpack.CacheBuster.Test", "PTrampert.Webpack.CacheBuster.Test\PTrampert.Webpack.CacheBuster.Test.csproj", "{39E1522D-41C2-4F7D-B864-8B6DD52CA82B}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0B5A6CAC-F8F5-4F12-A2D4-F35E6401F21C}"
+	ProjectSection(SolutionItems) = preProject
+		Jenkinsfile = Jenkinsfile
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
