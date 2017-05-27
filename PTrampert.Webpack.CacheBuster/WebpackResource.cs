@@ -2,16 +2,16 @@
 {
     public class WebpackResource
     {
-        public string PublicPath { get; set; }
+        public string FileName { get; set; }
         public string Hash { get; set; }
 
         public WebpackResource()
         {
         }
 
-        public WebpackResource(string publicPath, string hash)
+        public WebpackResource(string fileName, string hash)
         {
-            PublicPath = publicPath;
+            FileName = fileName;
             Hash = hash;
         }
     }

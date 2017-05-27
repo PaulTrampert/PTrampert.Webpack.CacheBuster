@@ -22,7 +22,7 @@ namespace PTrampert.Webpack.CacheBuster
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
             var resource = resources[WebpackResource];
-            output.Attributes.SetAttribute(output.TagName == "script" ? "src" : "href", $"{resource.PublicPath}?v={resource.Hash}");
+            output.Attributes.SetAttribute(output.TagName == "script" ? "src" : "href", $"{resource.FileName}?v={resource.Hash}");
         }
     }
 }
