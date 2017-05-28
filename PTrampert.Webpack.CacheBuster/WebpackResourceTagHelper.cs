@@ -6,7 +6,8 @@ using Microsoft.Extensions.Options;
 
 namespace PTrampert.Webpack.CacheBuster
 {
-
+    [HtmlTargetElement("script")]
+    [HtmlTargetElement("link")]
     public class WebpackResourceTagHelper : TagHelper
     {
         [HtmlAttributeName("webpack-resource")]
