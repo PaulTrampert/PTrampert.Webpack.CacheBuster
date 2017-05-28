@@ -51,5 +51,13 @@ namespace PTrampert.Webpack.CacheBuster.Test
             subject.WebpackResource = "derp.js";
             Assert.Throws<KeyNotFoundException>(() => subject.Process(null, output));
         }
+
+        [Fact]
+        public void WhenWebpackResourceIsNullNoAttributeIsSet()
+        {
+            var output = new TagHelperOutput("script", new TagHelperAttributeList(), (b, enc) => Task.FromResult(null as TagHelperContent));
+            subject.Process(null, output);
+            Assert.Empty(output.Attributes);
+        }
     }
 }

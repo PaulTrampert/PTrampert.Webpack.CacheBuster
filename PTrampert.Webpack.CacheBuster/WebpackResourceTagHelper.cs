@@ -6,8 +6,8 @@ using Microsoft.Extensions.Options;
 
 namespace PTrampert.Webpack.CacheBuster
 {
-    [HtmlTargetElement("script")]
-    [HtmlTargetElement("link")]
+    [HtmlTargetElement("script", Attributes = "webpack-resource")]
+    [HtmlTargetElement("link", Attributes = "webpack-resource")]
     public class WebpackResourceTagHelper : TagHelper
     {
         [HtmlAttributeName("webpack-resource")]
@@ -22,8 +22,12 @@ namespace PTrampert.Webpack.CacheBuster
 
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
-            var resource = resources[WebpackResource];
-            output.Attributes.SetAttribute(output.TagName == "script" ? "src" : "href", $"{resource.FileName}?v={resource.Hash}");
+            if (WebpackResource != null)
+            {
+                var resource = resources[WebpackResource];
+                output.Attributes.SetAttribute(output.TagName == "script" ? "src" : "href",
+                    $"{resource.FileName}?v={resource.Hash}");
+            }
         }
     }
 }
