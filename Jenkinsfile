@@ -2,7 +2,10 @@
 def releaseInfo
 
 pipeline {
-	agent { docker "mcr.microsoft.com/dotnet/core/sdk:2.2" }
+	agent {
+		docker "mcr.microsoft.com/dotnet/core/sdk:2.2"
+		args "-e HOME=$HOME"
+	}
 
 	options {
 		buildDiscarder(logRotator(numToKeepStr:'5'))
