@@ -23,7 +23,7 @@ pipeline {
             'v',
             'Github User/Pass',
             'https://api.github.com',
-            branch,
+            BRANCH_NAME == "master" ? null : BRANCH_NAME,
             env.BUILD_NUMBER
           )
 
