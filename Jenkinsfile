@@ -72,8 +72,6 @@ pipeline {
         API_KEY = credentials('nuget-api-key')
       }
       steps {
-        sh "dotnet nuget push **/*.nupkg -s https://api.nuget.org/v3/index.json -k ${env.API_KEY}"
-
 				script {
           publishGithubRelease(
             'PaulTrampert',
@@ -84,6 +82,8 @@ pipeline {
             'https://api.github.com'
           )
         }
+
+        sh "dotnet nuget push **/*.nupkg -s https://api.nuget.org/v3/index.json -k ${env.API_KEY}"
       }
     }
 	}
