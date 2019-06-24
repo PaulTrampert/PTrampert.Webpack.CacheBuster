@@ -45,7 +45,7 @@ pipeline {
 
 			post {
 				always {
-					xunit thresholds: [failed(unstableThreshold: '0')], tools: [MSTest(deleteOutputFiles: true, failIfNotNew: true, skipNoTestFiles: false, stopProcessingIfError: false)]
+					xunit thresholds: [failed(unstableThreshold: '0')], tools: [MSTest(deleteOutputFiles: true, failIfNotNew: true, pattern: '**/*.trx', skipNoTestFiles: false, stopProcessingIfError: false)]
 				}
 			}
 		}
