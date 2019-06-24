@@ -1,4 +1,5 @@
 @Library('github-release-helpers@v0.2.1')
+def releaseInfo
 
 pipeline {
 	agent { docker "mcr.microsoft.com/dotnet/core/sdk:2.2" }
