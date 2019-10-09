@@ -4,7 +4,7 @@ def releaseInfo
 pipeline {
 	agent {
 		docker {
-			image "mcr.microsoft.com/dotnet/core/sdk:2.2"
+			image "mcr.microsoft.com/dotnet/core/sdk:3.0"
 			args "-e HOME=$HOME"
 		}
 	}
