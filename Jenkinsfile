@@ -40,7 +40,7 @@ pipeline {
 
 		stage('Test') {
 			steps {
-				sh "dotnet test ${PROJECT_NAME}.Test/${PROJECT_NAME}.Test.csproj -l trx"
+				sh "dotnet test ${PROJECT_NAME}.Test/${PROJECT_NAME}.Test.csproj -l trx -f netcoreapp3.0"
 			}
 
 			post {
