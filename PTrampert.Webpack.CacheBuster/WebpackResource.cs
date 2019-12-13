@@ -1,5 +1,8 @@
-﻿namespace PTrampert.Webpack.CacheBuster
+﻿using System;
+
+namespace PTrampert.Webpack.CacheBuster
 {
+    [Obsolete("No longer needed when using cache-bust tag helper.")]
     public class WebpackResource
     {
         public string FileName { get; set; }
