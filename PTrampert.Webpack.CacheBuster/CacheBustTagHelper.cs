@@ -8,8 +8,8 @@ using Microsoft.Extensions.FileProviders;
 
 namespace PTrampert.Webpack.CacheBuster
 {
-    [HtmlTargetElement("script", Attributes = "webpack-resource")]
-    [HtmlTargetElement("link", Attributes = "webpack-resource")]
+    [HtmlTargetElement("script", Attributes = "cache-bust")]
+    [HtmlTargetElement("link", Attributes = "cache-bust")]
     public class CacheBustTagHelper : TagHelper
     {
         private static readonly IDictionary<string, CacheBustedFile> Cache = new ConcurrentDictionary<string, CacheBustedFile>();
