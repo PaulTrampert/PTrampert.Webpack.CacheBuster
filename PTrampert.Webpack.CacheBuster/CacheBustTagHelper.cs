@@ -31,11 +31,6 @@ namespace PTrampert.Webpack.CacheBuster
         }
 #endif
 
-        public CacheBustTagHelper(IFileProvider webroot)
-        {
-            this.webroot = webroot;
-        }
-
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
             if (Resource != null)
