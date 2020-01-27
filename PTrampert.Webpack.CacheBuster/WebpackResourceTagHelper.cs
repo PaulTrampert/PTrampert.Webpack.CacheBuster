@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using Microsoft.Extensions.Options;
 
 namespace PTrampert.Webpack.CacheBuster
 {
+    [Obsolete("Use cache-bust instead")]
     [HtmlTargetElement("script", Attributes = "webpack-resource")]
     [HtmlTargetElement("link", Attributes = "webpack-resource")]
     public class WebpackResourceTagHelper : TagHelper
