@@ -22,11 +22,7 @@ namespace PTrampert.Webpack.CacheBuster.Test
         private Mock<IUrlHelper> UrlHelper { get; set; }
         private Mock<IUrlHelperFactory> UrlHelperFactory { get; set; }
         private Mock<IActionContextAccessor> ActionContext { get; set; }
-#if NETCOREAPP3_0 || NETCOREAPP3_1
         private Mock<IWebHostEnvironment> Env { get; set; }
-#elif NETCOREAPP2_0
-        private Mock<IHostingEnvironment> Env { get; set; }
-#endif
 
         public CacheBustTagHelperTests()
         {
@@ -40,15 +36,9 @@ namespace PTrampert.Webpack.CacheBuster.Test
             ActionContext.SetupGet(ac => ac.ActionContext)
                 .Returns(new ActionContext());
             Webroot = new Mock<IFileProvider>();
-#if NETCOREAPP3_0 || NETCOREAPP3_1
             Env = new Mock<IWebHostEnvironment>();
             Env.SetupGet(e => e.WebRootFileProvider)
                 .Returns(Webroot.Object);
-#elif NETCOREAPP2_0
-            Env = new Mock<IHostingEnvironment>();
-            Env.SetupGet(e => e.WebRootFileProvider)
-                .Returns(Webroot.Object);
-#endif
             FileInfo = new Mock<IFileInfo>();
             Webroot.Setup(r => r.GetFileInfo(It.IsAny<string>()))
                 .Returns(FileInfo.Object);

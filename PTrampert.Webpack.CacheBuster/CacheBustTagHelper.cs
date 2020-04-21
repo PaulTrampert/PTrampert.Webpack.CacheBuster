@@ -24,19 +24,11 @@ namespace PTrampert.Webpack.CacheBuster
 
         private readonly IUrlHelper urlHelper;
 
-#if NETCOREAPP3_0 || NETCOREAPP3_1
         public CacheBustTagHelper(IWebHostEnvironment env, IUrlHelperFactory urlHelperFactory, IActionContextAccessor actionContext)
         {
             webroot = env.WebRootFileProvider;
             this.urlHelper = urlHelperFactory.GetUrlHelper(actionContext.ActionContext);
         }
-#elif NETSTANDARD2_0
-        public CacheBustTagHelper(IHostingEnvironment env, IUrlHelperFactory urlHelperFactory, IActionContextAccessor actionContext)
-        {
-            webroot = env.WebRootFileProvider;
-            this.urlHelper = urlHelperFactory.GetUrlHelper(actionContext.ActionContext);
-        }
-#endif
 
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
