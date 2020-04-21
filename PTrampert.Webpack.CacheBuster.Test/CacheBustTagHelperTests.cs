@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using Microsoft.Extensions.FileProviders;
 using Moq;
@@ -18,6 +20,8 @@ namespace PTrampert.Webpack.CacheBuster.Test
         private Mock<IFileProvider> Webroot { get; set; }
         private Mock<IFileInfo> FileInfo { get; set; }
         private Mock<IUrlHelper> UrlHelper { get; set; }
+        private Mock<IUrlHelperFactory> UrlHelperFactory { get; set; }
+        private Mock<IActionContextAccessor> ActionContext { get; set; }
 #if NETCOREAPP3_0 || NETCOREAPP3_1
         private Mock<IWebHostEnvironment> Env { get; set; }
 #elif NETCOREAPP2_0
@@ -29,6 +33,12 @@ namespace PTrampert.Webpack.CacheBuster.Test
             UrlHelper = new Mock<IUrlHelper>();
             UrlHelper.Setup(url => url.Content(It.IsAny<string>()))
                 .Returns("/resolved/content");
+            UrlHelperFactory = new Mock<IUrlHelperFactory>();
+            UrlHelperFactory.Setup(f => f.GetUrlHelper(It.IsAny<ActionContext>()))
+                .Returns(UrlHelper.Object);
+            ActionContext = new Mock<IActionContextAccessor>();
+            ActionContext.SetupGet(ac => ac.ActionContext)
+                .Returns(new ActionContext());
             Webroot = new Mock<IFileProvider>();
 #if NETCOREAPP3_0 || NETCOREAPP3_1
             Env = new Mock<IWebHostEnvironment>();
@@ -42,7 +52,7 @@ namespace PTrampert.Webpack.CacheBuster.Test
             FileInfo = new Mock<IFileInfo>();
             Webroot.Setup(r => r.GetFileInfo(It.IsAny<string>()))
                 .Returns(FileInfo.Object);
-            Subject = new CacheBustTagHelper(Env.Object, UrlHelper.Object);
+            Subject = new CacheBustTagHelper(Env.Object, UrlHelperFactory.Object, ActionContext.Object);
             Subject.Resource = "/herp.js";
         }
 

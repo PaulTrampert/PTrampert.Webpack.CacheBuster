@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Security.Cryptography;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using Microsoft.Extensions.FileProviders;
 
@@ -23,16 +25,16 @@ namespace PTrampert.Webpack.CacheBuster
         private readonly IUrlHelper urlHelper;
 
 #if NETCOREAPP3_0 || NETCOREAPP3_1
-        public CacheBustTagHelper(IWebHostEnvironment env, IUrlHelper urlHelper)
+        public CacheBustTagHelper(IWebHostEnvironment env, IUrlHelperFactory urlHelperFactory, IActionContextAccessor actionContext)
         {
             webroot = env.WebRootFileProvider;
-            this.urlHelper = urlHelper;
+            this.urlHelper = urlHelperFactory.GetUrlHelper(actionContext.ActionContext);
         }
 #elif NETSTANDARD2_0
-        public CacheBustTagHelper(IHostingEnvironment env, IUrlHelper urlHelper)
+        public CacheBustTagHelper(IHostingEnvironment env, IUrlHelperFactory urlHelperFactory, IActionContextAccessor actionContext)
         {
-            this.urlHelper = urlHelper;
             webroot = env.WebRootFileProvider;
+            this.urlHelper = urlHelperFactory.GetUrlHelper(actionContext.ActionContext);
         }
 #endif
 
