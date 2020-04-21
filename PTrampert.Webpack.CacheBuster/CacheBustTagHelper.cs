@@ -14,43 +14,23 @@ namespace PTrampert.Webpack.CacheBuster
     [HtmlTargetElement("link", Attributes = "cache-bust")]
     public class CacheBustTagHelper : TagHelper
     {
-        private static readonly IDictionary<string, CacheBustedFile> Cache = new ConcurrentDictionary<string, CacheBustedFile>();
+        private readonly ICacheBuster cacheBuster;
 
         [HtmlAttributeName("cache-bust")]
         public string Resource { get; set; }
 
-        private readonly IFileProvider webroot;
-
-        private readonly IUrlHelper urlHelper;
-
-        public CacheBustTagHelper(IWebHostEnvironment env, IUrlHelperFactory urlHelperFactory, IActionContextAccessor actionContext)
+        public CacheBustTagHelper(ICacheBuster cacheBuster)
         {
-            webroot = env.WebRootFileProvider;
-            this.urlHelper = urlHelperFactory.GetUrlHelper(actionContext.ActionContext);
+            this.cacheBuster = cacheBuster;
         }
 
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
             if (Resource != null)
             {
-                var absoluteUrl = urlHelper.Content(Resource);
-                if (!Cache.ContainsKey(absoluteUrl))
-                {
-                    Cache.Add(absoluteUrl, new CacheBustedFile(absoluteUrl));
-                }
+                var cacheBustedResource = cacheBuster.BustCache(Resource);
 
-                var cachedFile = Cache[absoluteUrl];
-
-                if (!cachedFile.Exists(webroot))
-                {
-                    output.Attributes.SetAttribute(output.TagName == "script" ? "src" : "href", absoluteUrl);
-                    return;
-                }
-
-                cachedFile.LastChecked = DateTimeOffset.Now;
-
-                output.Attributes.SetAttribute(output.TagName == "script" ? "src" : "href",
-                    $"{cachedFile.WebPath}?v={cachedFile.GetHash(webroot)}");
+                output.Attributes.SetAttribute(output.TagName == "script" ? "src" : "href", cacheBustedResource);
             }
         }
     }

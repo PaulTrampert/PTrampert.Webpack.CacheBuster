@@ -47,7 +47,7 @@ namespace PTrampert.Webpack.CacheBuster.Test
         }
 
         [Fact]
-        public void WhenFileDoesntExistForLink_ItWritesTheHrefAttrib()
+        public void WhenFileDoesntExist_ItReturnsTheResolvedPathWithoutAVersionString()
         {
             FileInfo.SetupGet(fi => fi.Exists).Returns(false);
             var result = Subject.BustCache("herp.js");
@@ -55,25 +55,7 @@ namespace PTrampert.Webpack.CacheBuster.Test
         }
 
         [Fact]
-        public void WhenFileDoesntExistForScript_ItWritesTheSrcAttrib()
-        {
-            FileInfo.SetupGet(fi => fi.Exists).Returns(false);
-            var result = Subject.BustCache("herp.js");
-            Assert.Equal("/resolved/content", result);
-        }
-
-        [Fact]
-        public void WhenFileExistsForScript_ItWritesTheSrcAttribWithHash()
-        {
-            FileInfo.SetupGet(fi => fi.Exists).Returns(true);
-            FileInfo.Setup(f => f.CreateReadStream())
-                .Returns(new MemoryStream(new byte[] {1, 2}));
-            var result = Subject.BustCache("herp.js");
-            Assert.Equal("/resolved/content?v=oShx_uIQ-4YZKR6uoZRYHL0lMeSyN1nSJfaAaSP2MiI=", result);
-        }
-
-        [Fact]
-        public void WhenFileExistsForLink_ItWritesTheHrefAttribWithHash()
+        public void WhenFileExists_ItReturnsTheResolvedPathWithAVersionString()
         {
             FileInfo.SetupGet(fi => fi.Exists).Returns(true);
             FileInfo.Setup(f => f.CreateReadStream())

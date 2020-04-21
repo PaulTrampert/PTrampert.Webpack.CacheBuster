@@ -10,9 +10,9 @@ namespace PTrampert.Webpack.CacheBuster
 {
     public class CacheBuster : ICacheBuster
     {
-        private static readonly IDictionary<string, CacheBustedFile> Cache = new ConcurrentDictionary<string, CacheBustedFile>();
+        private readonly IDictionary<string, CacheBustedFile> cache = new ConcurrentDictionary<string, CacheBustedFile>();
 
-        private IWebHostEnvironment env;
+        private readonly IWebHostEnvironment env;
         private readonly IUrlHelperFactory urlHelperFactory;
         private readonly IActionContextAccessor actionContextAccessor;
 
@@ -28,12 +28,12 @@ namespace PTrampert.Webpack.CacheBuster
             var webroot = env.WebRootFileProvider;
             var urlHelper = urlHelperFactory.GetUrlHelper(actionContextAccessor.ActionContext);
             var absoluteUrl = urlHelper.Content(url);
-            if (!Cache.ContainsKey(absoluteUrl))
+            if (!cache.ContainsKey(absoluteUrl))
             {
-                Cache.Add(absoluteUrl, new CacheBustedFile(absoluteUrl));
+                cache.Add(absoluteUrl, new CacheBustedFile(absoluteUrl));
             }
 
-            var cachedFile = Cache[absoluteUrl];
+            var cachedFile = cache[absoluteUrl];
 
             if (!cachedFile.Exists(webroot))
             {
