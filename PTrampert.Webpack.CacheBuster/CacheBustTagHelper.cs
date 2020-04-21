@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using Microsoft.Extensions.FileProviders;
 
@@ -19,14 +20,18 @@ namespace PTrampert.Webpack.CacheBuster
 
         private readonly IFileProvider webroot;
 
+        private readonly IUrlHelper urlHelper;
+
 #if NETCOREAPP3_0 || NETCOREAPP3_1
-        public CacheBustTagHelper(IWebHostEnvironment env)
+        public CacheBustTagHelper(IWebHostEnvironment env, IUrlHelper urlHelper)
         {
             webroot = env.WebRootFileProvider;
+            this.urlHelper = urlHelper;
         }
 #elif NETSTANDARD2_0
-        public CacheBustTagHelper(IHostingEnvironment env)
+        public CacheBustTagHelper(IHostingEnvironment env, IUrlHelper urlHelper)
         {
+            this.urlHelper = urlHelper;
             webroot = env.WebRootFileProvider;
         }
 #endif
@@ -35,16 +40,17 @@ namespace PTrampert.Webpack.CacheBuster
         {
             if (Resource != null)
             {
-                if (!Cache.ContainsKey(Resource))
+                var absoluteUrl = urlHelper.Content(Resource);
+                if (!Cache.ContainsKey(absoluteUrl))
                 {
-                    Cache.Add(Resource, new CacheBustedFile(Resource));
+                    Cache.Add(absoluteUrl, new CacheBustedFile(absoluteUrl));
                 }
 
-                var cachedFile = Cache[Resource];
+                var cachedFile = Cache[absoluteUrl];
 
                 if (!cachedFile.Exists(webroot))
                 {
-                    output.Attributes.SetAttribute(output.TagName == "script" ? "src" : "href", Resource);
+                    output.Attributes.SetAttribute(output.TagName == "script" ? "src" : "href", absoluteUrl);
                     return;
                 }
 
